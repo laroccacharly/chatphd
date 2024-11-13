@@ -1,6 +1,6 @@
 import os
 def get_document_content() -> str:
-    document_path = os.getenv("DOCUMENT_PATH")
+    document_path = os.getenv("DOCUMENT_PATH", "documents/fcn.tex")
     with open(document_path, "r") as f:
         return f.read()
 

@@ -1,3 +1,4 @@
+LNS_CONTENT = r"""
 \documentclass[3p, authoryear, times]{elsarticle} 
 
 
@@ -997,3 +998,4 @@ We acknowledge the support of the Institute for Data Valorization (IVADO), Digit
 
 
 \end{document}
+"""

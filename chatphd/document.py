@@ -1,11 +1,20 @@
 import os
-def get_document_content() -> str:
-    document_path = os.getenv("DOCUMENT_PATH", "documents/fcn.tex")
-    with open(document_path, "r") as f:
-        return f.read()
+from .fcn import FCN_CONTENT
+from .lns import LNS_CONTENT
+
+def get_current_document_name() -> str:
+    return os.getenv("DOCUMENT_NAME", "fcn")
 
 def set_document(name: str): 
-    os.environ["DOCUMENT_PATH"] = f"documents/{name}.tex"
+    os.environ["DOCUMENT_NAME"] = name
+
+def get_document_content() -> str:
+    if get_current_document_name() == "fcn":
+        return FCN_CONTENT
+    elif get_current_document_name() == "lns":
+        return LNS_CONTENT
+    else:
+        raise ValueError(f"Document {get_current_document_name()} not found")
 
 
 doc_name_map = {

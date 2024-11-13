@@ -8,13 +8,11 @@ if [ -d ".venv" ]; then
     activate_venv
 fi
 
-# update python path
 export PYTHONPATH="$(pwd)"
 
 export ANTHROPIC_API_KEY="op://Personal/Claude/credential"
 
 export MODEL_NAME="claude-3-5-haiku-20241022"
 
-export DOCUMENT_PATH="documents/fcn.tex"
 alias main="op run -- uv run main.py"
 alias ui="op run -- streamlit run ui.py"

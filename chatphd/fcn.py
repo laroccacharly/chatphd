@@ -1,3 +1,4 @@
+FCN_CONTENT = r"""
 \documentclass[3p, authoryear, times, doubleblind]{elsarticle} 
 
 
@@ -10,7 +11,7 @@
 \begin{document}
 
 \begin{frontmatter}
-
+n
 \title{Combining supervised learning and local search for the multicommodity capacitated fixed-charge network design problem}
 
  
@@ -844,3 +845,5 @@ Two limitations of our ML-based approach are worth mentioning. First, the method
 
 
 \end{document}
+
+"""

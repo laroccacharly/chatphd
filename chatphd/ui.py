@@ -1,34 +1,35 @@
 import streamlit as st
 import os
 from chatphd import (
-    client, 
-    get_document_content, 
-    set_document, 
-    get_document_full_name, 
-    get_document_short_name
+    get_all_documents,
+    get_message_stream
 )
 
-def init_ui():
-    st.title("Chat with a document")
-
-    # Add document selector
-    if "selected_document" not in st.session_state:
-        st.session_state.selected_document = get_document_full_name("fcn")
-
-    def on_doc_change():
-        st.session_state.pop("messages", None)  # Reset chat
-        short_name = get_document_short_name(st.session_state.selected_document)
-        set_document(short_name)
-
-    selected_doc = st.selectbox(
-        "Select document",
-        [get_document_full_name(doc) for doc in ["fcn", "lns"]],
-        key="selected_document",
-        on_change=on_doc_change
-    )
-
-    if "messages" not in st.session_state:
+def init_session_state():
+    if 'is_init' not in st.session_state or not st.session_state.is_init:
+        st.session_state.selected_document = None
         st.session_state.messages = []
+        st.session_state.is_init = True
+
+
+def on_doc_change(): 
+    st.session_state.messages = []
+    print(st.session_state.selected_document)
+    
+def init_ui():
+    st.title("Chat with a paper")
+
+    init_session_state() 
+
+    st.selectbox(
+        "Select a paper",
+        get_all_documents(),
+        index=None, 
+        placeholder="No paper selected",
+        key="selected_document",
+        on_change=on_doc_change, 
+        format_func=lambda doc: doc.full_name
+    )
 
     for message in st.session_state.messages:
         if message["role"] != "system":
@@ -46,13 +47,7 @@ def init_ui():
                 for m in st.session_state.messages
             ]
             
-            stream = client.messages.create(
-                model=os.getenv("MODEL_NAME", "claude-3-5-haiku-20241022"),
-                system=get_document_content(),
-                messages=messages,
-                max_tokens=200,
-                stream=True
-            )
-            
+            stream = get_message_stream(messages, st.session_state.selected_document)
+
             response = st.write_stream((chunk.delta.text for chunk in stream if chunk.type == "content_block_delta"))
         st.session_state.messages.append({"role": "assistant", "content": response})

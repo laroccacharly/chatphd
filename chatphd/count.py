@@ -1,6 +1,6 @@
 from .pdf import load_pdf_as_base64
-from .claude_client import client
-from .document import get_document_content
+from .claude_client import get_client
+from .document import Document
 
 def estimate_cost(token_count: int) -> float:
     print(f"Estimated cost: ${token_count / 1000000}")
@@ -8,7 +8,7 @@ def estimate_cost(token_count: int) -> float:
 def get_token_count() -> int: 
     pdf_base64 = load_pdf_as_base64()
 
-    response = client.beta.messages.count_tokens(
+    response = get_client().beta.messages.count_tokens(
         betas=["token-counting-2024-11-01", "pdfs-2024-09-25"],
         model="claude-3-5-sonnet-20241022",
         messages=[{
@@ -31,10 +31,9 @@ def get_token_count() -> int:
     )
     return response.input_tokens
 
-
-def get_token_count_from_document_content() -> int:
-    document_content = get_document_content()
-    response = client.beta.messages.count_tokens(
+def get_token_count_for_document(document: Document) -> int:
+    document_content = document.get_content()
+    response = get_client().beta.messages.count_tokens(
         betas=["token-counting-2024-11-01"],
         model="claude-3-5-sonnet-20241022",
         messages=[{"role": "user", "content": document_content}]

@@ -1,3 +1,3 @@
 import chatphd
 
-print(chatphd.get_token_count_from_document_content())
+print(chatphd.get_token_count_for_document(chatphd.get_all_documents()[0]))

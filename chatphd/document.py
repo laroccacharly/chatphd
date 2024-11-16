@@ -1,21 +1,35 @@
-import os
+from typing import Union
 from .fcn import FCN_CONTENT
 from .lns import LNS_CONTENT
+from pydantic import BaseModel
 
-def get_current_document_name() -> str:
-    return os.getenv("DOCUMENT_NAME", "fcn")
+class Document(BaseModel):
+    name: str
+    full_name: str
+    content: Union[str, None] = None
 
-def set_document(name: str): 
-    os.environ["DOCUMENT_NAME"] = name
+    def get_content(self) -> str:
+        if self.content is None:
+            self.content = self.load_content()
+        return self.content
+    
+    def load_content(self):
+        if self.name == "fcn":
+            return FCN_CONTENT
+        elif self.name == "lns":
+            return LNS_CONTENT
+        else:
+            raise ValueError(f"Document {self.name} not found")
 
-def get_document_content() -> str:
-    if get_current_document_name() == "fcn":
-        return FCN_CONTENT
-    elif get_current_document_name() == "lns":
-        return LNS_CONTENT
-    else:
-        raise ValueError(f"Document {get_current_document_name()} not found")
 
+def get_all_document_names() -> list[str]:
+    return ["fcn", "lns"]
+
+def get_all_documents() -> list[Document]:
+    return [Document(
+        name=name,
+        full_name=get_document_full_name(name),
+    ) for name in get_all_document_names()]
 
 doc_name_map = {
     "fcn": "Combining supervised learning and local search for the multicommodity capacitated fixed-charge network design problem",
@@ -24,6 +38,3 @@ doc_name_map = {
 
 def get_document_full_name(short_name: str) -> str:
     return doc_name_map[short_name]
-
-def get_document_short_name(full_name: str) -> str:
-    return list(doc_name_map.keys())[list(doc_name_map.values()).index(full_name)]

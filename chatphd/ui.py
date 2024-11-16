@@ -22,6 +22,12 @@ def start_chat():
     ]
 
 def init_ui():
+    # Set page title and favicon
+    st.set_page_config(
+        page_title="chatphd",
+        page_icon="📚"
+    )
+    
     # Add custom CSS
     st.markdown("""
         <style>

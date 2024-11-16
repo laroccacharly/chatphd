@@ -1,6 +1,7 @@
 from .claude_client import get_client
 from .document import Document
 from typing import Iterator
+from .prompt import get_prompt
 import os
 
 def get_model_name() -> str:
@@ -11,9 +12,10 @@ def get_max_tokens() -> int:
 
 def get_message_stream(messages: list[dict], document: Document) -> Iterator[str]:
     client = get_client()
+    system_prompt = get_prompt(document.load_content())
     return client.messages.create(
         model=get_model_name(),
-        system=document.load_content(),
+        system=system_prompt,
         messages=messages,
         max_tokens=get_max_tokens(),
         stream=True

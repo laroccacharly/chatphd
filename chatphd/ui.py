@@ -109,4 +109,3 @@ def init_ui():
 def on_doc_change(): 
     st.session_state.messages = []
     st.session_state.chat_started = False
-    print(st.session_state.selected_document)

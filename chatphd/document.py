@@ -1,6 +1,7 @@
 from typing import Union
 from .fcn import FCN_CONTENT
 from .lns import LNS_CONTENT
+from .lap import LAP_CONTENT
 from pydantic import BaseModel
 
 class Document(BaseModel):
@@ -18,12 +19,14 @@ class Document(BaseModel):
             return FCN_CONTENT
         elif self.name == "lns":
             return LNS_CONTENT
+        elif self.name == "lap":
+            return LAP_CONTENT
         else:
             raise ValueError(f"Document {self.name} not found")
 
 
 def get_all_document_names() -> list[str]:
-    return ["fcn", "lns"]
+    return ["lap", "fcn", "lns"]
 
 def get_all_documents() -> list[Document]:
     return [Document(
@@ -32,8 +35,9 @@ def get_all_documents() -> list[Document]:
     ) for name in get_all_document_names()]
 
 doc_name_map = {
+    'lap': 'One-shot Learning for MIPs with SOS1 Constraints', 
     "fcn": "Combining supervised learning and local search for the multicommodity capacitated fixed-charge network design problem",
-    "lns": "Supervised Large Neighbourhood Search for MIPs"
+    "lns": "Supervised Large Neighbourhood Search for MIPs",
 }
 
 def get_document_full_name(short_name: str) -> str:

@@ -15,13 +15,10 @@ def get_prompt(research_paper: str, user_query: str = "") -> str:
 
     3. Explain the relevance and potential applications of the research in a business context.
 
-    4. Use analogies or real-world examples to illustrate complex concepts when appropriate.
-
-
-    5. After addressing the user's query, provide three follow-up options for further clarification or exploration. These should be phrased as questions that the user might be interested in asking next. Add a shortcut to each, so there user can just type the corresponding shortcut and the assistant would answer the corresponding question. 
+    5. After addressing the user's query, provide three follow-up options for further clarification or exploration. These should be phrased as questions that the user might be interested in asking next. Add a shortcut to each, so there user can just type the corresponding shortcut and the assistant would answer the corresponding question. e.g. [A] question 1, [B] question 2, [C] question 3.
 
     6. Do not be too verbose. No more than 3 bullets points per enumeration. 
 
-    Remember to maintain a professional yet approachable tone throughout your response. Your goal is to make the research understandable and interesting to non-experts while highlighting its potential value to the business world. The shortcut must be a single letter. 
+    Remember to maintain a professional yet approachable tone throughout your response. Your goal is to make the research understandable and interesting to non-experts while highlighting its potential value to the business world. 
 
     """

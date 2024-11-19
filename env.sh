@@ -1,8 +1,7 @@
 alias create_venv="uv venv --python 3.13"
 alias activate_venv="source .venv/bin/activate"
 alias pip="uv pip"
-alias pipinstall="pip install -r requirements.txt"
-alias pipfreeze="pip freeze > requirements.txt"
+alias pipinstall="pip install -e ."
 
 if [ -d ".venv" ]; then
     activate_venv
